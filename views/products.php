@@ -176,6 +176,11 @@ $user = getCurrentUser();
                 <button class="btn btn-primary" onclick="addCategory()"><i class="fas fa-plus"></i></button>
             </div>
             <div id="category-list"></div>
+            <div style="margin-top: 16px; display: flex; justify-content: flex-end;">
+                <button type="button" class="btn btn-outline" onclick="closeCategoryManager()">
+                    <i class="fas fa-times"></i> Tutup
+                </button>
+            </div>
         </div>
     </div>
 
@@ -526,6 +531,12 @@ $user = getCurrentUser();
             }).data('kendoWindow');
         }
         categoryWindow.center().open();
+    }
+
+    function closeCategoryManager() {
+        if (categoryWindow) {
+            categoryWindow.close();
+        }
     }
 
     function loadCategories() {
