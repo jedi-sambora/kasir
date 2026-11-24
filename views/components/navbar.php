@@ -44,8 +44,8 @@ $currentPage = isset($_GET['page']) ? $_GET['page'] : 'main_menu';
         <div style="width:64px;height:64px;background:linear-gradient(135deg,#FDE8E8,#FBBFBF);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;">
             <i class="fas fa-sign-out-alt" style="font-size:24px;color:#D94F4F;"></i>
         </div>
-        <h3 style="font-family:var(--font-display,Georgia,serif);font-size:1.2rem;color:#2C1D12;margin-bottom:8px;">Konfirmasi Logout</h3>
-        <p style="color:#6B5B4E;font-size:0.9rem;margin-bottom:24px;">Apakah Anda yakin ingin keluar<br>dari sistem?</p>
+        <h3 style="font-family:var(--font-display,Georgia,serif);font-size:1.2rem;color:var(--text-primary);margin-bottom:8px;">Konfirmasi Logout</h3>
+        <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:24px;">Apakah Anda yakin ingin keluar<br>dari sistem?</p>
         <div style="display:flex;gap:12px;justify-content:center;">
             <button class="btn btn-outline" id="logout-cancel" style="min-width:120px;justify-content:center;">
                 <i class="fas fa-times"></i> Batal

@@ -9,7 +9,7 @@ $user = getCurrentUser();
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <meta name="description" content="Halaman Kasir POS - Buat transaksi penjualan">
     <title>Kasir — Café POS</title>
     <link rel="stylesheet" href="/kasir/assets/fontawesome/css/all.min.css">
@@ -17,7 +17,7 @@ $user = getCurrentUser();
     <link rel="stylesheet" href="/kasir/assets/kendo/styles/kendo.material.min.css">
     <link rel="stylesheet" href="/kasir/assets/css/app.css">
 </head>
-<body>
+<body class="pos-page">
     <?php include __DIR__ . '/components/navbar.php'; ?>
     <?php include __DIR__ . '/components/struk_print.php'; ?>
 
@@ -25,14 +25,16 @@ $user = getCurrentUser();
         <div class="pos-layout">
             <!-- Products Panel -->
             <div class="pos-products-panel" id="pos-products-panel">
-                <div class="pos-search-bar">
-                    <div class="search-wrapper">
-                        <i class="fas fa-search"></i>
-                        <input type="text" class="search-input" id="pos-search" placeholder="Cari menu...">
+                <div class="pos-mobile-toolbar">
+                    <div class="pos-search-bar">
+                        <div class="search-wrapper">
+                            <i class="fas fa-search"></i>
+                            <input type="search" class="search-input" id="pos-search" placeholder="Cari menu..." autocomplete="off" enterkeyhint="search">
+                        </div>
                     </div>
-                </div>
-                <div class="category-filter-bar" id="category-filter">
-                    <button class="cat-btn active" data-category="all">Semua</button>
+                    <div class="category-filter-bar" id="category-filter">
+                        <button class="cat-btn active" data-category="all">Semua</button>
+                    </div>
                 </div>
                 <div class="product-grid" id="product-grid">
                     <!-- Filled by JS -->
@@ -134,7 +136,7 @@ $user = getCurrentUser();
             <div class="receipt-preview" id="receipt-preview-content">
                 <!-- filled by JS -->
             </div>
-            <div style="display:flex;gap:12px;margin-top:24px;">
+            <div class="receipt-actions">
                 <button class="btn btn-outline" style="flex:1;justify-content:center;" onclick="printReceipt()">
                     <i class="fas fa-print"></i> Cetak Struk
                 </button>
@@ -157,6 +159,10 @@ $user = getCurrentUser();
     var paymentWindow = null;
     var receiptWindow = null;
     var lastTransaction = null;
+
+    function getDialogWidth(preferredWidth) {
+        return Math.min(preferredWidth, Math.max(280, window.innerWidth - 16)) + 'px';
+    }
 
     // Format currency
     function formatRupiah(num) {
@@ -229,12 +235,14 @@ $user = getCurrentUser();
                 imgHtml = '<div class="product-img">' + icon + '</div>';
             }
             html += '<div class="product-card" onclick="addToCart(' + p.id + ')" data-id="' + p.id + '">' +
+                    '<span class="product-cart-qty" aria-label="Jumlah di pesanan"></span>' +
                     imgHtml +
                     '<div class="product-name">' + escapeHtml(p.nama_produk) + '</div>' +
                     '<div class="product-price">' + formatRupiah(p.harga) + '</div>' +
                     '</div>';
         });
         $('#product-grid').html(html);
+        syncProductBadges();
     }
 
     // Add to cart
@@ -256,6 +264,16 @@ $user = getCurrentUser();
         }
         renderCart();
         showToast(product.nama_produk + ' ditambahkan', 'success');
+    }
+
+    function syncProductBadges() {
+        $('.product-card').each(function() {
+            var productId = $(this).data('id');
+            var item = cart.find(function(c) { return c.id == productId; });
+            var qty = item ? item.qty : 0;
+            $(this).toggleClass('in-cart', qty > 0)
+                .find('.product-cart-qty').text(qty);
+        });
     }
 
     // Toggle mobile cart
@@ -314,6 +332,8 @@ $user = getCurrentUser();
             $('#mobile-cart-bar').removeClass('has-items');
         }
 
+        syncProductBadges();
+
         if (cart.length === 0) {
             $('#cart-items').html('<div class="cart-empty" id="cart-empty"><i class="fas fa-shopping-basket"></i><p>Belum ada pesanan</p></div>');
             return;
@@ -341,6 +361,7 @@ $user = getCurrentUser();
     // Open payment window
     function openPayment() {
         if (cart.length === 0) return;
+        if (window.innerWidth <= 1024) toggleMobileCart(false);
         var total = getCartTotal();
         $('#pay-total-display').text(formatRupiah(total));
         $('#pay-amount').val('').focus();
@@ -361,7 +382,7 @@ $user = getCurrentUser();
         if (!paymentWindow) {
             paymentWindow = $('#payment-window').kendoWindow({
                 title: 'Pembayaran',
-                width: '480px',
+                width: getDialogWidth(480),
                 modal: true,
                 visible: false,
                 actions: ['Close'],
@@ -511,7 +532,7 @@ $user = getCurrentUser();
         if (!receiptWindow) {
             receiptWindow = $('#receipt-window').kendoWindow({
                 title: 'Struk Pembayaran',
-                width: '480px',
+                width: getDialogWidth(480),
                 modal: true,
                 visible: false,
                 actions: ['Close'],
@@ -559,6 +580,13 @@ $user = getCurrentUser();
         $('#pos-search').on('input', function() {
             clearTimeout(searchTimer);
             searchTimer = setTimeout(filterProducts, 200);
+        });
+
+        $(window).on('resize orientationchange', function() {
+            [paymentWindow, receiptWindow].forEach(function(dialog) {
+                if (dialog) dialog.setOptions({ width: getDialogWidth(480) }).center();
+            });
+            if (window.innerWidth > 1024) toggleMobileCart(false);
         });
     });
     </script>

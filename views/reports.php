@@ -356,7 +356,7 @@ $user = getCurrentUser();
                 series: [{
                     field: "total",
                     name: "Pendapatan (Rp)",
-                    color: "#8B5E3C",
+                    color: "#16A34A",
                     overlay: { gradient: "none" },
                     border: { width: 0 }
                 }],
@@ -367,7 +367,7 @@ $user = getCurrentUser();
                 },
                 valueAxis: {
                     labels: { font: "11px Inter", template: function(e) { return formatRupiah(e.value); } },
-                    majorGridLines: { color: "#f0e8e0" }
+                    majorGridLines: { color: "#E8F2EB" }
                 },
                 tooltip: {
                     visible: true,
@@ -406,7 +406,7 @@ $user = getCurrentUser();
                     labels: { font: "11px Inter" },
                     majorGridLines: { visible: false }
                 },
-                valueAxis: { labels: { font: "11px Inter" }, majorGridLines: { color: "#f0e8e0" } },
+                valueAxis: { labels: { font: "11px Inter" }, majorGridLines: { color: "#E8F2EB" } },
                 tooltip: { visible: true, template: "#= category #: #= value # terjual" },
                 chartArea: { background: "transparent" }
             });
@@ -518,15 +518,15 @@ $user = getCurrentUser();
 
     // Build Excel rows for transactions
     function buildTransactionRows(data, f) {
-        var headerStyle = { bold: true, background: "#8B5E3C", color: "#FFFFFF", fontSize: 12 };
-        var titleStyle = { bold: true, fontSize: 14, color: "#2C1D12" };
-        var totalStyle = { bold: true, background: "#F5EDE5", fontSize: 12 };
+        var headerStyle = { bold: true, background: "#16A34A", color: "#FFFFFF", fontSize: 12 };
+        var titleStyle = { bold: true, fontSize: 14, color: "#132A1B" };
+        var totalStyle = { bold: true, background: "#DCFCE7", fontSize: 12 };
 
         var rows = [];
 
         // Title
-        rows.push({ cells: [{ value: "LAPORAN TRANSAKSI - CAFÉ POS", colSpan: 6, bold: true, fontSize: 16, color: "#8B5E3C" }] });
-        rows.push({ cells: [{ value: "Periode: " + f.date_from + " s/d " + f.date_to, colSpan: 6, fontSize: 11, color: "#6B5B4E" }] });
+        rows.push({ cells: [{ value: "LAPORAN TRANSAKSI - CAFÉ POS", colSpan: 6, bold: true, fontSize: 16, color: "#16A34A" }] });
+        rows.push({ cells: [{ value: "Periode: " + f.date_from + " s/d " + f.date_to, colSpan: 6, fontSize: 11, color: "#476252" }] });
         rows.push({ cells: [{ value: "" }] }); // empty row
 
         // Headers
@@ -582,7 +582,7 @@ $user = getCurrentUser();
 
         // Title
         rows.push({ cells: [{ value: "LAPORAN DETAIL PER ITEM - CAFÉ POS", colSpan: 8, bold: true, fontSize: 16, color: "#2D9F6F" }] });
-        rows.push({ cells: [{ value: "Periode: " + f.date_from + " s/d " + f.date_to, colSpan: 8, fontSize: 11, color: "#6B5B4E" }] });
+        rows.push({ cells: [{ value: "Periode: " + f.date_from + " s/d " + f.date_to, colSpan: 8, fontSize: 11, color: "#476252" }] });
         rows.push({ cells: [{ value: "" }] });
 
         // Headers
@@ -631,7 +631,7 @@ $user = getCurrentUser();
         });
         rows.push({
             cells: [
-                { value: summary.total_transactions + " transaksi, " + summary.total_items + " item terjual", colSpan: 8, italic: true, color: "#6B5B4E" }
+                { value: summary.total_transactions + " transaksi, " + summary.total_items + " item terjual", colSpan: 8, italic: true, color: "#476252" }
             ]
         });
 

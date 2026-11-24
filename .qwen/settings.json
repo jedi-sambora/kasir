@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git push *)",
+      "Bash(git remote *)",
+      "Bash(ssh-keyscan *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(ssh-keygen *)",
+      "Bash(ssh *)"
+    ]
+  },
+  "$version": 4
+}

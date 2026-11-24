@@ -36,7 +36,7 @@ $user = getCurrentUser();
     .image-upload-area.drag-over {
         border-color: var(--primary);
         background: var(--primary-50);
-        box-shadow: 0 0 0 4px rgba(139, 94, 60, 0.1);
+        box-shadow: 0 0 0 4px var(--primary-100);
     }
     .image-upload-area.has-image {
         border-style: solid;

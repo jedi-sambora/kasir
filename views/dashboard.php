@@ -124,7 +124,7 @@ $user = getCurrentUser();
                 series: [{
                     field: "total",
                     name: "Pendapatan (Rp)",
-                    color: "#8B5E3C",
+                    color: "#16A34A",
                     overlay: { gradient: "none" },
                     border: { width: 0 }
                 }],
@@ -138,7 +138,7 @@ $user = getCurrentUser();
                         font: "11px Inter",
                         template: function(e) { return formatRupiah(e.value); }
                     },
-                    majorGridLines: { color: "#f0e8e0" }
+                    majorGridLines: { color: "#E8F2EB" }
                 },
                 tooltip: {
                     visible: true,
@@ -154,7 +154,7 @@ $user = getCurrentUser();
         $.getJSON('/kasir/api/reports.php?action=category_revenue', function(res) {
             if (!res.success) return;
 
-            var colors = ['#8B5E3C', '#D4A574', '#4A90D9', '#2D9F6F', '#E8A838', '#9B6FB0'];
+            var colors = ['#16A34A', '#84CC16', '#0D9488', '#4A90D9', '#E8A838', '#9B6FB0'];
 
             var data = res.data.map(function(d, i) {
                 return {
@@ -230,7 +230,7 @@ $user = getCurrentUser();
                 },
                 valueAxis: {
                     labels: { font: "11px Inter" },
-                    majorGridLines: { color: "#f0e8e0" }
+                    majorGridLines: { color: "#E8F2EB" }
                 },
                 tooltip: {
                     visible: true,
